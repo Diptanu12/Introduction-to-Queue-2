@@ -1,0 +1,114 @@
+Implement Queue using stack - enQueue O(1)
+Implement Queue using two stack S1 and S2. You need to complete the push and pop function of Queue class. You are given 2 types of query 1 for push an integer into queue and 2 for enqueue the value from the queue and print.
+
+Note: implement enQueue in O(1)
+
+Input Format
+First line contains q of queries.
+
+Followed by q lines.
+
+Query of type 1 is followed by an integer x to push element in the queue.
+
+Query of type 2 is for dequeue the last value from the queue and print.
+
+Output Format
+Print the value for dequeue operations in the query given.
+
+Example 1
+Input
+
+5
+1 2
+1 3
+2
+1 4
+2
+Output:
+
+2 3
+Explanation
+
+First we push 2 , then for second query we push 3, for third query we dequeue 2 and print, for 4th query we push 4 and for 5th query we dequeue 3 and print.
+
+Example 2
+Input
+
+3
+2
+1 2
+2
+Output:
+
+-1 2
+Explanation:
+
+In the first query we don't have any element but we use dequeue query so we print -1, in the 2nd query we push 2 and in the 3rd we dequeue 2 and print 2.
+
+Constraints
+1 <= Total number of queries <= 100
+
+1 <= value in each query <= 100
+
+Topics
+Stacks
+Queues
+Companies
+
+
+
+import java.util.*;
+
+class StackQueue {
+    // write your code here
+    Stack<Integer> A;
+    Stack<Integer> B;
+
+    StackQueue() {
+        A = new Stack<>();
+        B = new Stack<>();
+    }
+
+    // Enqueue: O(1)
+    void Push(int a) {
+        A.push(a);
+    }
+
+    // Dequeue: O(N)
+    int Pop() {
+        if (A.size() == 0) {
+            return -1;
+        }
+
+        while (A.size() != 1) {
+            B.push(A.pop());
+        }
+
+        int ele = A.pop();
+
+        while (B.size() != 0) {
+            A.push(B.pop());
+        }
+
+        return ele;
+    }
+}
+
+class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StackQueue s = new StackQueue();
+        int q = scanner.nextInt();
+
+        while (q-- > 0) {
+            int queryType = scanner.nextInt();
+            if (queryType == 1) {
+                int a = scanner.nextInt();
+                s.Push(a);
+            } else if (queryType == 2) {
+                System.out.print(s.Pop() + " ");
+            }
+        }
+    }
+}
